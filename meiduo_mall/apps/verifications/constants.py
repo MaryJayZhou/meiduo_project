@@ -1,0 +1,2 @@
+# 图片验证码国企时间
+IMAGE_CODE_REDIS_EXPIRES =300

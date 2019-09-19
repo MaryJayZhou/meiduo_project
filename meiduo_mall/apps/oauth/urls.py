@@ -16,10 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from . import views
+from apps.oauth import views
 
-urlpatterns = {
+urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^register/$', views.RegisterView.as_view()),
-}
+    url(r'^qq/login/$', views.QQLoginView.as_view()),
+
+    url(r'^oauth_callback/$', views.QQOauthCallbackView.as_view()),
+
+]

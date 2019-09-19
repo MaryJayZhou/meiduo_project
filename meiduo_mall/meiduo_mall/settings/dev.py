@@ -40,13 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'apps.users',
+    'apps.contents',
+    'apps.verifications',
+    'apps.oauth',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -106,8 +109,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
         'HOST': '127.0.0.1', # 数据库主机
         'PORT': 3306, # 数据库端口
-        'USER': 'itheima', # 数据库用户名
-        'PASSWORD': '123456', # 数据库用户密码
+        'USER': 'root', # 数据库用户名
+        'PASSWORD': 'mysql', # 数据库用户密码
         'NAME': 'meiduo' # 数据库名字
     },
 }
@@ -120,14 +123,30 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
-    "session": { # session
+    "session": {  # 默认
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
+    "verify_image_code": { #图形验证码
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+# 保存短信验证码--3号库
+    "sms_code": {  # 保存短信验证码--3号库
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/3",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
 }
+
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
 
@@ -218,3 +237,15 @@ import logging
 logger = logging.getLogger('django')
 
 
+AUTH_USER_MODEL = 'users.User'
+
+# 指定自定义的用户认证后端
+AUTHENTICATION_BACKENDS = ['apps.users.utils.UsernameMobileAuthBackend']
+
+# 设置重定向登陆的路由
+LOGIN_URL = '/login/'
+
+# ｑｑ登陆
+QQ_CLIENT_ID = '101518219'
+QQ_CLIENT_SECRET = '418d84ebdc7241efb79536886ae95224'
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8000/oauth_callback'
