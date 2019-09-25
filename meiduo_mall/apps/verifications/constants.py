@@ -1,2 +1,3 @@
-# 图片验证码国企时间
-IMAGE_CODE_REDIS_EXPIRES =300
+
+# 图片验证码的过期时间
+IMAGE_CODE_REDIS_EXPIRES = 5 * 60

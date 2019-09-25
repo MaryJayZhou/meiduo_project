@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'apps.contents',
     'apps.verifications',
     'apps.oauth',
+    'apps.areas',
+    'apps.goods',
+    'apps.carts',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +97,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meiduo_mall.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -145,6 +147,20 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
+    "history": { # 用户浏览记录
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379/4",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        },
+    "carts": { # 购物车
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379/5",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        },
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
@@ -249,3 +265,20 @@ LOGIN_URL = '/login/'
 QQ_CLIENT_ID = '101518219'
 QQ_CLIENT_SECRET = '418d84ebdc7241efb79536886ae95224'
 QQ_REDIRECT_URI = 'http://www.meiduo.site:8000/oauth_callback'
+
+# 激活邮箱
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # 指定邮件后端
+EMAIL_HOST = 'smtp.163.com' # 发邮件主机
+EMAIL_PORT = 25 # 发邮件端口
+EMAIL_HOST_USER = 'hmmeiduo@163.com' # 授权的邮箱
+EMAIL_HOST_PASSWORD = 'hmmeiduo123' # 邮箱授权时获得的密码，非注册登录密码
+EMAIL_FROM = '美多商城<hmmeiduo@163.com>' # 发件人抬头
+EMAIL_ACTIVE_URL = 'http://www.meiduo.site:8000/emails/verification/' #激活地址
+
+
+# 指定自定义的Django文件存储类
+DEFAULT_FILE_STORAGE = 'utils.fastdfs.fastdfs_storage.FastDFSStorage'
+
+# FastDFS相关参数
+# FDFS_BASE_URL = 'http://192.168.194.128:8888/'
+FDFS_BASE_URL = 'http://image.meiduo.site:8888/'

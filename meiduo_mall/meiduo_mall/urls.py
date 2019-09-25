@@ -16,17 +16,26 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^', include('apps.users.urls', namespace="users")),
-    # 首页
+    # 1.注册--用户
+    url(r'^', include('apps.users.urls', namespace='users')),
 
+    # 2.首页
     url(r'^', include('apps.contents.urls', namespace="contents")),
 
-# 图形验证码
+    # 3.图形验证码
     url(r'^', include('apps.verifications.urls')),
 
+    # 4.QQ 登录
     url(r'^', include('apps.oauth.urls')),
+
+    # 5.城市数据
+    url(r'^', include('apps.areas.urls')),
+    # 上品数据
+    url(r'^', include('apps.goods.urls', namespace='goods')),
+    #　购物车
+    url(r'^', include('apps.carts.urls')),
+
 ]
