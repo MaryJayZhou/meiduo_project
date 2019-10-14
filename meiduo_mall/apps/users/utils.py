@@ -35,8 +35,22 @@ def get_user_by_account(account):
 
 class  UsernameMobileAuthBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        #　校验手机号和用户名
-        user = get_user_by_account(username)
+        if request is None:
+            try:
+                user = User.objects.get(username=username,is_staff=True)
+            except:
+                return None
+            else:
+                if user.check_password(password):
+                    return user
+                else:
+                    return None
+        else:
 
-        if user.check_password(password):
-            return user
+        #　校验手机号和用户名
+            user = get_user_by_account(username)
+
+            if user.check_password(password):
+                return user
+            else :
+                return None

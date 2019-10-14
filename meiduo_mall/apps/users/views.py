@@ -303,7 +303,7 @@ class LoginView(View):
         # 4. 判断用户名 和密码是否正确--orm User.objects.get(username=username,password=passwod)
         from django.contrib.auth import authenticate, login
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(request,username=username, password=password)
 
         # 判断 user是否存在 不存在 代表登录失败
         if user is None:

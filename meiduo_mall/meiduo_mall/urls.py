@@ -38,4 +38,8 @@ urlpatterns = [
     #　购物车
     url(r'^', include('apps.carts.urls')),
 
+
+    #  后台
+    url('^meiduo_admin/',include('apps.meiduo_admin.urls')),
+
 ]
